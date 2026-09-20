@@ -724,66 +724,6 @@ section {
 }
 
 /* ==========================================================================
-   TESTIMONIALS SECTION
-   ========================================================================== */
-
-.testimonial-card {
-  background: #ffffff;
-  border-radius: var(--radius-lg);
-  padding: 32px;
-  box-shadow: var(--shadow-md);
-  border: 1px solid var(--border-subtle);
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.rating-stars {
-  color: #f59e0b;
-  font-size: 1rem;
-  margin-bottom: 16px;
-}
-
-.testimonial-text {
-  font-style: italic;
-  color: var(--text-main);
-  font-size: 0.98rem;
-  margin-bottom: 24px;
-  flex-grow: 1;
-}
-
-.testimonial-author {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.author-avatar {
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  background: var(--primary);
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 1.1rem;
-}
-
-.author-name {
-  font-weight: 700;
-  color: var(--dark-slate);
-  margin-bottom: 2px;
-  font-size: 0.95rem;
-}
-
-.author-role {
-  color: var(--text-muted);
-  font-size: 0.8rem;
-}
-
-/* ==========================================================================
    FAQ ACCORDION
    ========================================================================== */
 
