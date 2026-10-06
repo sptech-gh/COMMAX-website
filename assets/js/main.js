@@ -77,72 +77,55 @@ document.addEventListener('DOMContentLoaded', () => {
         toastElement.addEventListener('hidden.bs.toast', () => toastElement.remove());
     };
 
-    // 5. Contact Form Handler
+    // 5. Email-draft form helpers
+    const contactEmail = 'commaxcare@gmail.com';
+
+    const buildFormSummary = (form) => {
+        const controls = form.querySelectorAll('input, select, textarea');
+        return Array.from(controls)
+            .filter((control) => control.type !== 'submit' && control.value?.trim())
+            .map((control) => {
+                const container = control.closest('[class*="col-"]');
+                const label = container?.querySelector('label')?.textContent?.replace('*', '').trim()
+                    || control.getAttribute('aria-label')
+                    || control.getAttribute('placeholder')
+                    || 'Details';
+                return `${label}: ${control.value.trim()}`;
+            })
+            .join('\n');
+    };
+
+    const openEmailDraft = (subject, body) => {
+        const href = `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.location.href = href;
+        showToast('Email Draft Opened', 'Please review the prepared message in your email application and send it to complete your request.');
+    };
+
+    // 6. Contact form
     const contactForm = document.getElementById('contactForm');
-    contactForm?.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const submitBtn = contactForm.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerHTML;
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i>Sending Message...';
-
-        setTimeout(() => {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalText;
-            contactForm.reset();
-            showToast('Message Received!', 'Thank you for reaching out to COMMAX Healthcare. Our care coordination team will contact you shortly.');
-        }, 1200);
+    contactForm?.addEventListener('submit', (event) => {
+        event.preventDefault();
+        openEmailDraft('Website enquiry', buildFormSummary(contactForm));
     });
 
-    // 6. Care Assessment Modal Form Handler
+    // 7. Care assessment request
     const assessmentForm = document.getElementById('assessmentForm');
-    assessmentForm?.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const submitBtn = assessmentForm.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerHTML;
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i>Scheduling Assessment...';
-
-        setTimeout(() => {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalText;
-            const modalEl = document.getElementById('assessmentModal');
-            const modal = bootstrap.Modal.getInstance(modalEl);
-            modal?.hide();
-            assessmentForm.reset();
-            showToast('Care Assessment Requested', 'We have received your care inquiry. A dedicated care manager will phone you within 2-4 hours to discuss personalized arrangements.');
-        }, 1300);
+    assessmentForm?.addEventListener('submit', (event) => {
+        event.preventDefault();
+        openEmailDraft('Care assessment request', buildFormSummary(assessmentForm));
     });
 
-    // 7. Career Application Modal Form Handler
+    // 8. Career application and vacancy enquiry
     const careerForm = document.getElementById('careerForm');
-    careerForm?.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const submitBtn = careerForm.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerHTML;
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i>Submitting Application...';
-
-        setTimeout(() => {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalText;
-            const modalEl = document.getElementById('careerModal');
-            const modal = bootstrap.Modal.getInstance(modalEl);
-            modal?.hide();
-            careerForm.reset();
-            showToast('Application Submitted!', 'Thank you for applying to join COMMAX Healthcare. Our recruitment team will review your details and contact you for onboarding.');
-        }, 1300);
+    careerForm?.addEventListener('submit', (event) => {
+        event.preventDefault();
+        openEmailDraft('Career application enquiry', buildFormSummary(careerForm));
     });
 
-    // 8. Newsletter / Quick Vacancy Alert Form
     const vacancyAlertForm = document.getElementById('vacancyAlertForm');
-    vacancyAlertForm?.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const emailInput = vacancyAlertForm.querySelector('input[type="email"]');
-        if (emailInput && emailInput.value) {
-            showToast('Subscribed!', `You are now registered for COMMAX Healthcare job alerts at ${emailInput.value}`);
-            vacancyAlertForm.reset();
-        }
+    vacancyAlertForm?.addEventListener('submit', (event) => {
+        event.preventDefault();
+        openEmailDraft('Healthcare vacancy updates', buildFormSummary(vacancyAlertForm));
     });
 
     // 9. Pre-fill Job Role when clicking on specific job card

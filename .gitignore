@@ -1,0 +1,26 @@
+# Editor and operating-system files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*~
+
+# Logs, temporary files, and backups
+*.log
+*.tmp
+*.bak
+*.backup
+tmp/
+temp/
+
+# Environment and credentials
+.env
+.env.*
+*.pem
+*.key
+
+# Generated output
+coverage/
+dist/
+build/
